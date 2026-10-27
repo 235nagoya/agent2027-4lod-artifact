@@ -1,0 +1,16 @@
+{
+  "run_id": "20260929_contract_repair_logged",
+  "created_at_utc": "2026-09-29T07:06:59.774535+00:00",
+  "model": "gpt-5.5",
+  "num_trials_per_condition": 30,
+  "max_execution_repairs": 2,
+  "conditions": [
+    "cond_B_contract",
+    "cond_B_plus_contract",
+    "cond_B_4LoD_contract",
+    "cond_C_contract"
+  ],
+  "run_experiment_sha256": "9541eedec2e70f04c7baf0d89dfcf68e570ae2a6a0030fc37d8c94cfb9a53552",
+  "eval_dynamic_sha256": "43885c759ce8da1a13663f540bf8208412e3df3e6e168c23732eb63c76a7b28c",
+  "execution_contract_sha256": "e7c777ae82fd24c4d4c6445c4777e21d18aa47261cbb83c6ebd763d051b0df97"
+}

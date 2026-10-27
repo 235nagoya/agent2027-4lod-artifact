@@ -1,0 +1,65 @@
+{
+  "cond_B": {
+    "total": 30,
+    "execution_error_count": 20,
+    "execution_error_rate": 66.67,
+    "L1_pass_rate": 0.0,
+    "L2_pass_rate": 0.0,
+    "L3_pass_rate": 0.0,
+    "L4_pass_rate": 0.0,
+    "overall_pass_rate": 0.0,
+    "error_types": {
+      "OperationalError": 19,
+      "ModuleNotFoundError": 1
+    }
+  },
+  "cond_B_plus": {
+    "total": 30,
+    "execution_error_count": 30,
+    "execution_error_rate": 100.0,
+    "L1_pass_rate": 0.0,
+    "L2_pass_rate": 0.0,
+    "L3_pass_rate": 10.0,
+    "L4_pass_rate": 0.0,
+    "overall_pass_rate": 0.0,
+    "error_types": {
+      "OperationalError": 10,
+      "ModuleNotFoundError": 16,
+      "TypeError": 4
+    }
+  },
+  "cond_B_4LoD": {
+    "total": 30,
+    "execution_error_count": 30,
+    "execution_error_rate": 100.0,
+    "L1_pass_rate": 0.0,
+    "L2_pass_rate": 100.0,
+    "L3_pass_rate": 100.0,
+    "L4_pass_rate": 100.0,
+    "overall_pass_rate": 0.0,
+    "error_types": {
+      "OperationalError": 21,
+      "NotImplementedError": 1,
+      "ModuleNotFoundError": 5,
+      "TypeError": 1,
+      "SyntaxError": 2
+    }
+  },
+  "cond_C": {
+    "total": 30,
+    "execution_error_count": 30,
+    "execution_error_rate": 100.0,
+    "L1_pass_rate": 0.0,
+    "L2_pass_rate": 100.0,
+    "L3_pass_rate": 100.0,
+    "L4_pass_rate": 100.0,
+    "overall_pass_rate": 0.0,
+    "error_types": {
+      "TypeError": 8,
+      "OperationalError": 16,
+      "NotImplementedError": 2,
+      "ModuleNotFoundError": 2,
+      "RuntimeError": 2
+    }
+  }
+}

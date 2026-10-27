@@ -1,0 +1,67 @@
+import os
+import sqlite3
+
+DATABASE_PATH = os.environ.get("CUSTOMER_DB_PATH", "app.db")
+
+
+def get_customer_for_driver(driver_id, customer_id):
+    if driver_id is None or customer_id is None:
+        return None
+
+    query = """
+        SELECT
+            c.customer_id,
+            c.id,
+            c.name,
+            c.display_name,
+            c.full_name,
+            c.address,
+            c.phone,
+            c.phone_number
+        FROM customers AS c
+        WHERE c.customer_id = ?
+          AND (
+                EXISTS (
+                    SELECT 1
+                    FROM driver_customer_assignments AS dca
+                    WHERE dca.driver_id = ?
+                      AND dca.customer_id = c.customer_id
+                      AND dca.status = 'active'
+                )
+                OR (
+                    NOT EXISTS (
+                        SELECT 1
+                        FROM driver_customer_assignments AS dca_any
+                        WHERE dca_any.driver_id = ?
+                          AND dca_any.customer_id = c.customer_id
+                    )
+                    AND EXISTS (
+                        SELECT 1
+                        FROM assignments AS a
+                        WHERE a.driver_id = ?
+                          AND a.customer_id = c.customer_id
+                    )
+                )
+          )
+        LIMIT 1
+    """
+
+    params = (customer_id, driver_id, driver_id, driver_id)
+
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        conn.row_factory = sqlite3.Row
+        row = conn.execute(query, params).fetchone()
+
+    if row is None:
+        return None
+
+    return {
+        "customer_id": row["customer_id"],
+        "id": row["id"],
+        "name": row["name"],
+        "display_name": row["display_name"],
+        "full_name": row["full_name"],
+        "address": row["address"],
+        "phone": row["phone"],
+        "phone_number": row["phone_number"],
+    }

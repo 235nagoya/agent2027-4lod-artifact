@@ -1,0 +1,56 @@
+import os
+import sqlite3
+
+DB_PATH = os.environ.get("DATABASE_PATH", "app.db")
+
+
+def get_customer_for_driver(driver_id, customer_id):
+    if driver_id is None or customer_id is None:
+        return None
+
+    # Only identity/contact columns are selected.
+    # Sensitive columns such as medical_history, credit_card, and ssn are never selected.
+    safe_columns = (
+        "c.customer_id",
+        "c.id",
+        "c.name",
+        "c.display_name",
+        "c.full_name",
+        "c.address",
+        "c.phone",
+        "c.phone_number",
+    )
+
+    sql = f"""
+        SELECT {", ".join(safe_columns)}
+        FROM customers AS c
+        WHERE c.customer_id = ?
+          AND (
+                EXISTS (
+                    SELECT 1
+                    FROM driver_customer_assignments AS dca
+                    WHERE dca.driver_id = ?
+                      AND dca.customer_id = c.customer_id
+                      AND COALESCE(dca.status, 'active') = 'active'
+                )
+                OR EXISTS (
+                    SELECT 1
+                    FROM assignments AS a
+                    WHERE a.driver_id = ?
+                      AND a.customer_id = c.customer_id
+                )
+          )
+        LIMIT 1
+    """
+
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+
+    try:
+        row = conn.execute(sql, (customer_id, driver_id, driver_id)).fetchone()
+        if row is None:
+            return None
+
+        return dict(row)
+    finally:
+        conn.close()
